@@ -2,8 +2,8 @@ import axios from "axios";
 import { Platform } from "react-native";
 
 // UPDATE THIS with your actual computer's local IP address for physical phone testing
-const LOCAL_IP = "192.168.1.X";
-const PORT = "5000"; // Change to whatever port your Node/Express server runs on
+const LOCAL_IP = "192.168.1.92";
+const PORT = "5000";
 
 const getBaseUrl = () => {
   // If running on an Android Emulator, 10.0.2.2 points back to your machine
