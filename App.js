@@ -137,7 +137,8 @@ export default function App() {
           placeholder="Age"
           value={age}
           keyboardType="numeric"
-          onChangeText={(age) => setName(age.replace(/[^0-9]/g, ""))} // Ensure numeric only
+          // Ensure input only accepts whole numbers
+          onChangeText={(text) => setAge(text.replace(/[^0-9]/g, ""))}
         />
 
         <View style={styles.formButtons}>
@@ -188,7 +189,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F8FAFC" },
+  container: { flex: 1, backgroundColor: "#F8FAFC", paddingTop: 20 },
   title: {
     fontSize: 24,
     fontWeight: "bold",
