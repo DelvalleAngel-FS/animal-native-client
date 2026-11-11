@@ -1,6 +1,6 @@
 import api from "../../../config/api";
 
-// Adjust the '/api/animals' endpoint path to match your specific MERN backend routes
+// Adjust the '/api/animals' endpoint path to match specific MERN backend routes
 export const animalService = {
   // 1. READ (GET All)
   getAllAnimals: async () => {
