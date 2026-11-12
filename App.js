@@ -14,27 +14,24 @@ import { animalService } from "./src/features/animals/services/animalService";
 import AnimalCard from "./src/components/AnimalCard";
 
 export default function App() {
-  // --- UI & Data States ---
   const [animals, setAnimals] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // --- Form Input States ---
+  // Form Input States matching your Mongoose Schema
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
-  const [age, setAge] = useState("");
-  const [editingId, setEditingId] = useState(null); // Tracks if we are creating or updating
+  const [conservationStatus, setConservationStatus] = useState("");
+  const [editingId, setEditingId] = useState(null);
 
-  // Load animal data immediately when the app mounts
   useEffect(() => {
     fetchAnimals();
   }, []);
 
-  // 1. GET (Read all animals)
   const fetchAnimals = async () => {
     try {
       setLoading(true);
       const data = await animalService.getAllAnimals();
-      setAnimals(data);
+      setAnimals(data || []);
     } catch (error) {
       console.error(error);
       Alert.alert("Network Error", "Could not connect to your backend server.");
@@ -43,27 +40,23 @@ export default function App() {
     }
   };
 
-  // 2 & 3. POST / PUT (Create new or save changes)
   const handleSaveAnimal = async () => {
-    if (!name || !species || !age) {
+    if (!name || !species || !conservationStatus) {
       Alert.alert("Validation", "Please fill out all fields.");
       return;
     }
 
-    const payload = { name, species, age: Number(age) };
+    const payload = { name, species, conservationStatus };
 
     try {
       if (editingId) {
-        // Run PUT Update request
         await animalService.updateAnimal(editingId, payload);
         Alert.alert("Success", "Animal entry updated!");
       } else {
-        // Run POST Create request
         await animalService.createAnimal(payload);
         Alert.alert("Success", "New animal added!");
       }
 
-      // Reset form states and refresh view
       clearForm();
       fetchAnimals();
     } catch (error) {
@@ -72,7 +65,6 @@ export default function App() {
     }
   };
 
-  // 4. DELETE (Remove animal record)
   const handleDeleteAnimal = async (id) => {
     Alert.alert(
       "Delete Animal",
@@ -96,18 +88,17 @@ export default function App() {
     );
   };
 
-  // Populate fields to prepare for an update change
   const handleEditPress = (animal) => {
     setEditingId(animal._id);
     setName(animal.name);
     setSpecies(animal.species);
-    setAge(animal.age.toString());
+    setConservationStatus(animal.conservationStatus);
   };
 
   const clearForm = () => {
     setName("");
     setSpecies("");
-    setAge("");
+    setConservationStatus("");
     setEditingId(null);
   };
 
@@ -115,30 +106,27 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>🐾 Animal Sanctuary Client</Text>
 
-      {/* Input CRUD Form Section */}
       <View style={styles.formContainer}>
         <Text style={styles.formHeading}>
           {editingId ? "✏️ Edit Animal Details" : "✨ Add New Entry"}
         </Text>
         <TextInput
           style={styles.input}
-          placeholder="Animal Name (e.g., Bella)"
+          placeholder="Animal Name (e.g., Leo)"
           value={name}
           onChangeText={setName}
         />
         <TextInput
           style={styles.input}
-          placeholder="Species (e.g., Golden Retriever)"
+          placeholder="Species (e.g., African Lion)"
           value={species}
           onChangeText={setSpecies}
         />
         <TextInput
           style={styles.input}
-          placeholder="Age"
-          value={age}
-          keyboardType="numeric"
-          // Ensure input only accepts whole numbers
-          onChangeText={(text) => setAge(text.replace(/[^0-9]/g, ""))}
+          placeholder="Conservation Status (e.g., Vulnerable)"
+          value={conservationStatus}
+          onChangeText={setConservationStatus}
         />
 
         <View style={styles.formButtons}>
@@ -158,7 +146,6 @@ export default function App() {
         </View>
       </View>
 
-      {/* Dynamic List Section */}
       {loading ? (
         <ActivityIndicator
           size="large"

@@ -2,7 +2,7 @@ import axios from "axios";
 import { Platform } from "react-native";
 
 // UPDATE from actual computer's local IP address for physical phone testing
-const LOCAL_IP = "192.168.1.92";
+const LOCAL_IP = "localhost";
 const PORT = "5000";
 
 const getBaseUrl = () => {

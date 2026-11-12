@@ -6,7 +6,7 @@ export default function AnimalCard({ animal, onEdit, onDelete }) {
     <View style={styles.card}>
       <Text style={styles.name}>{animal.name}</Text>
       <Text style={styles.species}>🐾 {animal.species}</Text>
-      <Text style={styles.age}>Age: {animal.age} years old</Text>
+      <Text style={styles.status}>Status: {animal.conservationStatus}</Text>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     borderLeftWidth: 5,
-    borderLeftColor: "#10B981", // Custom animal theme accent (emerald green)
+    borderLeftColor: "#10B981",
   },
   name: { fontSize: 20, fontWeight: "bold", color: "#1E293B" },
   species: {
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontStyle: "italic",
   },
-  age: { fontSize: 14, color: "#64748B", marginTop: 2 },
+  status: { fontSize: 14, color: "#059669", marginTop: 4, fontWeight: "600" },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
